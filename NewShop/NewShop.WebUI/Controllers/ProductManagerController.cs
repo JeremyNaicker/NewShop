@@ -13,14 +13,16 @@ namespace NewShop.WebUI.Controllers
     {
 
 
-        ProductRepository Context;
-        ProductCategoryRepository ProductCategories; 
+        //ProductRepository Context;
+        InMemoryRepository<Product> Context;
+        InMemoryRepository<ProductCategory> ProductCategories;
+        //ProductCategoryRepository ProductCategories; 
 
 
         public ProductManagerController()
         {
-            Context = new ProductRepository();
-            ProductCategories = new ProductCategoryRepository();
+            Context = new InMemoryRepository<Product>();
+            ProductCategories = new InMemoryRepository<ProductCategory>();
         }
 
 
