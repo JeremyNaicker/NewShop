@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using NewShop.Core.Contracts;
 using NewShop.Core.Models;
 using NewShop.Core.ViewModels;
 using NewShop.DataAccess.InMemory;
@@ -14,15 +15,15 @@ namespace NewShop.WebUI.Controllers
 
 
         //ProductRepository Context;
-        InMemoryRepository<Product> Context;
-        InMemoryRepository<ProductCategory> ProductCategories;
+        IRepository<Product> Context;
+        IRepository<ProductCategory> ProductCategories;
         //ProductCategoryRepository ProductCategories; 
 
 
-        public ProductManagerController()
+        public ProductManagerController(IRepository<Product> ProductContext, IRepository<ProductCategory> ProductCategoryContext)
         {
-            Context = new InMemoryRepository<Product>();
-            ProductCategories = new InMemoryRepository<ProductCategory>();
+            Context = ProductContext;
+            ProductCategories = ProductCategoryContext;
         }
 
 

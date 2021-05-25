@@ -1,4 +1,5 @@
-﻿using NewShop.Core.Models;
+﻿using NewShop.Core.Contracts;
+using NewShop.Core.Models;
 using NewShop.DataAccess.InMemory;
 using System;
 using System.Collections.Generic;
@@ -11,12 +12,12 @@ namespace NewShop.WebUI.Controllers
     public class ProductCategoryController : Controller
     {
         // GET: ProductCategory
-        InMemoryRepository<ProductCategory> Context;
+        IRepository<ProductCategory> Context;
 
 
-        public ProductCategoryController()
+        public ProductCategoryController(IRepository<ProductCategory> ProductCategoryContext)
         {
-            Context = new InMemoryRepository<ProductCategory>();
+            this.Context = ProductCategoryContext;
         }
 
 
