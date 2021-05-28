@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -46,7 +47,7 @@ namespace NewShop.WebUI.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(Product product)
+        public ActionResult Create(Product product,HttpPostedFileBase file)
         {
          if (!ModelState.IsValid)
             {
@@ -54,6 +55,14 @@ namespace NewShop.WebUI.Controllers
             }
          else
             {
+
+                if(file != null)
+                {
+                    product.Image = product.Id + Path.GetExtension(file.FileName);
+                    file.SaveAs(Server.MapPath("//Content//ProductImages//") + product.Image);
+                }
+
+
                 Context.Insert(product);
                 Context.Commit();
 
@@ -80,7 +89,7 @@ namespace NewShop.WebUI.Controllers
 
 
         [HttpPost]
-        public ActionResult Edit(Product product, string Id)
+        public ActionResult Edit(Product product, string Id,HttpPostedFileBase file)
         {
             Product ProducttoEdit = Context.Find(Id);
             if (ProducttoEdit == null)
@@ -94,9 +103,15 @@ namespace NewShop.WebUI.Controllers
                     return View(product);
                 }
 
+                if(file!=null)
+                {
+                    ProducttoEdit.Image = product.Id + Path.GetExtension(file.FileName);
+                    file.SaveAs(Server.MapPath("//Content//ProductImages//") + ProducttoEdit.Image);
+                }
+
                 ProducttoEdit.Category = product.Category;
                 ProducttoEdit.Description = product.Description;
-                ProducttoEdit.Image = product.Image;
+                //ProducttoEdit.Image = product.Image;
                 ProducttoEdit.Price = product.Price;
                 ProducttoEdit.Name = product.Name;
 
