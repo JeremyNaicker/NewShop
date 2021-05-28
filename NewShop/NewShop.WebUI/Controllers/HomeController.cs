@@ -1,4 +1,6 @@
-﻿using System;
+﻿using NewShop.Core.Contracts;
+using NewShop.Core.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,9 +10,37 @@ namespace NewShop.WebUI.Controllers
 {
     public class HomeController : Controller
     {
+
+        //ProductRepository Context;
+        IRepository<Product> Context;
+        IRepository<ProductCategory> ProductCategories;
+        //ProductCategoryRepository ProductCategories; 
+
+
+        public HomeController(IRepository<Product> ProductContext, IRepository<ProductCategory> ProductCategoryContext)
+        {
+            Context = ProductContext;
+            ProductCategories = ProductCategoryContext;
+        }
+
+
         public ActionResult Index()
         {
-            return View();
+            List<Product> products = Context.Collection().ToList();
+            return View(products);
+        }
+
+        public ActionResult Details(string Id)
+        {
+            Product product = Context.Find(Id);
+            if(product==null)
+            {
+                return HttpNotFound();
+            }
+            else
+            {
+                return View(product);
+            }
         }
 
         public ActionResult About()
