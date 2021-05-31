@@ -7,11 +7,9 @@ using System.Threading.Tasks;
 
 namespace NewShop.Core.ViewModels
 {
-    public class ProductManagerViewModel
+    public class ProductListViewModel
     {
-
-        
-        public Product product { get; set; }
+        public IEnumerable<Product> product { get; set; }
         public IEnumerable<ProductCategory> ProductCategories { get; set; }
 
     }

@@ -1,5 +1,6 @@
 ﻿using NewShop.Core.Contracts;
 using NewShop.Core.Models;
+using NewShop.Core.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,10 +25,27 @@ namespace NewShop.WebUI.Controllers
         }
 
 
-        public ActionResult Index()
+        public ActionResult Index(string Category=null)
         {
-            List<Product> products = Context.Collection().ToList();
-            return View(products);
+
+
+            List<Product> products;
+            List<ProductCategory> category = ProductCategories.Collection().ToList();
+            //List<Product> products = Context.Collection().ToList();
+            if (Category == null)
+            {
+                products = Context.Collection().ToList();
+            }
+            else
+            {
+                products = Context.Collection().Where(p => p.Category == Category).ToList();
+            }
+
+            ProductListViewModel model = new ProductListViewModel();
+            model.product = products;
+            model.ProductCategories = category;
+
+            return View(model);
         }
 
         public ActionResult Details(string Id)
