@@ -92,6 +92,7 @@
     <Reference Include="System.Net.Http.WebRequest" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Mocks\MockContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Controllers\HomeControllerTest.cs" />
   </ItemGroup>
@@ -102,6 +103,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\NewShop.Core\NewShop.Core.csproj">
+      <Project>{05C3894E-4E78-4DCF-B329-4758FD92A121}</Project>
+      <Name>NewShop.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NewShop.WebUI\NewShop.WebUI.csproj">
       <Project>{D63E8B4E-2198-4C2D-B4D7-A9C9B14F1A33}</Project>
       <Name>NewShop.WebUI</Name>

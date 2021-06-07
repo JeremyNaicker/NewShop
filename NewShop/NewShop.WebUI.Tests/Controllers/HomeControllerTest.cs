@@ -4,6 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Web.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NewShop.Core.Contracts;
+using NewShop.Core.Models;
+using NewShop.Core.ViewModels;
 using NewShop.WebUI;
 using NewShop.WebUI.Controllers;
 
@@ -12,43 +15,22 @@ namespace NewShop.WebUI.Tests.Controllers
     [TestClass]
     public class HomeControllerTest
     {
-        [TestMethod]
-        public void Index()
+
+    [TestMethod]
+    public void IndexPageDoesReturnProducts()
         {
-            // Arrange
-            //HomeController controller = new HomeController();
+            IRepository<Product> ProductContext = new Mocks.MockContext<Product>();
+            IRepository<ProductCategory> ProductCategoryContext = new Mocks.MockContext<ProductCategory>();
+            HomeController controller = new HomeController(ProductContext, ProductCategoryContext);
 
-            //// Act
-            //ViewResult result = controller.Index() as ViewResult;
+            ProductContext.Insert(new Product());
 
-            //// Assert
-            //Assert.IsNotNull(result);
+
+            var result = controller.Index() as ViewResult;
+            var viewmodel = (ProductListViewModel)result.ViewData.Model;
+            Assert.AreEqual(1, viewmodel.product.Count());
         }
 
-        [TestMethod]
-        public void About()
-        {
-            // Arrange
-            //HomeController controller = new HomeController();
 
-            //// Act
-            //ViewResult result = controller.About() as ViewResult;
-
-            //// Assert
-            //Assert.AreEqual("Your application description page.", result.ViewBag.Message);
-        }
-
-        [TestMethod]
-        public void Contact()
-        {
-            // Arrange
-            //HomeController controller = new HomeController();
-
-            //// Act
-            //ViewResult result = controller.Contact() as ViewResult;
-
-            //// Assert
-            //Assert.IsNotNull(result);
-        }
     }
 }
