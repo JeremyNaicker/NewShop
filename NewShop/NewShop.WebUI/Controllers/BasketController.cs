@@ -1,4 +1,5 @@
 ﻿using NewShop.Core.Contracts;
+using NewShop.Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,11 +12,13 @@ namespace NewShop.WebUI.Controllers
     {
 
         IBasketService basketService;
+        IOrderService orderService;
 
 
-        public BasketController(IBasketService BasketService)
+        public BasketController(IBasketService BasketService, IOrderService orderService)
         {
             this.basketService = BasketService;
+            this.orderService = orderService;
         }
 
 
@@ -46,5 +49,33 @@ namespace NewShop.WebUI.Controllers
             var basketSummary = basketService.GetBasketSummary(this.HttpContext);
             return PartialView(basketSummary);
         }
+
+
+        public ActionResult Checkout()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Checkout(Order order)
+        {
+            var basketitems = basketService.GetBasketItems(this.HttpContext);
+            order.OrderStatus = "Order Created";
+
+            //Payment
+
+            order.OrderStatus = "Payment Processed";
+            orderService.CreateOrder(order, basketitems);
+            basketService.ClearBasket(this.HttpContext);
+
+            return RedirectToAction("ThankYou",new { OrderId = order.Id });
+        }
+
+        public ActionResult ThankYou(string OrderId)
+        {
+            ViewBag.OrderId = OrderId;
+            return View();
+        }
+
     }
 }
