@@ -9,6 +9,7 @@ using System.Web.Mvc;
 
 namespace NewShop.WebUI.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class ProductCategoryController : Controller
     {
         // GET: ProductCategory

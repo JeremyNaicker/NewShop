@@ -11,6 +11,7 @@ using NewShop.DataAccess.InMemory;
 
 namespace NewShop.WebUI.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class ProductManagerController : Controller
     {
 
